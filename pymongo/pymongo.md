@@ -1,4 +1,12 @@
 #
+Ubuntu
+```
+apt install mongodb-server
+apt install python-pip
+pip install pymongo
+
+```
+
 ```
 >>> from pymongo import MongoClient
 >>> client = MongoClient('localhost', 27017)
