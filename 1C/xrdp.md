@@ -1,4 +1,4 @@
-#xrdp
+# xrdp
 
 ---
 
@@ -25,4 +25,49 @@ sudo make install
 cd ..
 ./bootstrap
 ./configure –enable-fuse –enable-rfxcodec –enable-fuse –enable-jpeg
+```
+
+#### Config xrdp.service
+```
+nano /lib/systemd/system/xrdp.service
+```
+```
+[Unit]
+Description=xrdp daemon
+Requires=xrdp-sesman.service
+After=syslog.target network.target xrdp-sesman.service
+[Service]
+Type=forking
+PIDFile=/var/run/xrdp.pid
+#EnvironmentFile=/etc/sysconfig/xrdp
+ExecStart=/usr/local/sbin/xrdp $XRDP_OPTIONS
+ExecStop=/usr/local/sbin/xrdp $XRDP_OPTIONS –kill
+[Install]
+WantedBy=multi-user.target
+```
+
+#### Config sessman-service
+```
+nano /lib/systemd/system/xrdp-sesman.service
+```
+```
+[Unit]
+Description=xrdp session manager
+After=syslog.target network.target
+StopWhenUnneeded=true
+[Service]
+Type=forking
+PIDFile=/var/run/xrdp-sesman.pid
+#EnvironmentFile=/etc/sysconfig/xrdp
+ExecStart=/usr/local/sbin/xrdp-sesman $SESMAN_OPTIONS
+ExecStop=/usr/local/sbin/xrdp-sesman $SESMAN_OPTIONS –kill
+[Install]
+WantedBy=multi-user.target
+```
+
+#### Enable xrdp
+```
+systemctl enable xrdp.service
+systemctl enable xrdp-sesman.service
+systemctl daemon-reload
 ```
