@@ -1,3 +1,14 @@
+# Adduser
+
+---
+Предпологается, что вся сборка будет происходить на свежеустановленном сервере, поэтому:
+```
+apt-get install sudo
+adduser admin
+usermod -aG sudo admin
+```
+
+
 # lxde
 
 ---
@@ -35,6 +46,11 @@ make install
 cd ..
 ./bootstrap
 ./configure –enable-fuse –enable-rfxcodec –enable-fuse –enable-jpeg
+```
+
+TODO: изменить порядок исполнения, если случайно установилось что-то не в том порядке:
+```
+autoreconf -ivf
 ```
 
 #### Config xrdp.service
@@ -170,6 +186,20 @@ setxkbmap -layout "ru,us" -model "pc105" -option "grp:alt_shift_toggle,grp_led:s
 ```
 Также в самом GUI поставить галочку в "настройках раскладки клавиатуры" - **не сбрасывать существующие настройки**
 
+# Security layer
+
+---
+```
+cd /etc/xrdp
+openssl req -x509 -newkey rsa:2048 -nodes -keyout key.pem -out cert.pem -days 365
+```
+Поменять 3 строчки ```/etc/xrdp/xrdp.ini``` к виду:
+```
+certificate=/etc/xrdp/cert.pem
+key_file=/etc/xrdp/key.pem
+security_layer=negotiate
+```
+
 # Timezone и синхронизация времени
 
 ---
@@ -190,10 +220,11 @@ apt-get install libreoffice-l10n-ru
 ```
 Распаковываем файлы **deb64.tar.gz** и **client.deb64.tar.gz** из дистрибутива 1С 8.3 в одну папку, затем:
 ```
-dpkg -i 1c*.deb
-apt-get -f install
+apt-get install libwebkitgtk-1.0-0
 apt-get install ttf-mscorefonts-installer
 apt-get install imagemagick
+dpkg -i 1c*.deb
+apt-get -f install
 ```
 
 Настроить пользователей...
