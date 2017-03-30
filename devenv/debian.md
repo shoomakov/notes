@@ -14,8 +14,37 @@ link: https://nodejs.org/en/download/package-manager/
 
 
 ```
-apt-get install nginx
+nano /etc/apt/sources.list
 ```
+Добавляем строчки:
+```
+# jessie-backports official repo
+deb http://ftp.ru.debian.org/debian/ jessie-backports main contrib non-free
+deb-src http://ftp.ru.debian.org/debian/ jessie-backports main contrib non-free
+
+# nginx official repo
+deb http://nginx.org/packages/debian/ jessie nginx
+deb-src http://nginx.org/packages/debian/ jessie nginx
+```
+
+Далее:
+```
+wget http://nginx.org/keys/nginx_signing.key
+apt-key add nginx_signing.key
+apt-get update && apt-get install nginx
+```
+
+Вероятно после обновления служба nginx в systemd будет замаскирована:
+```
+systemctl unmask nginx
+systemctl restart nginx
+```
+
+Если нужно апгрейдить Nginx, то перед всеми этими действиями нужно:
+```
+apt-get remove nginx nginx-common
+```
+
 
 ## Forever
 
@@ -44,6 +73,17 @@ apt-get update
 gpg --keyserver keys.gnupg.net --recv-key <тут пабкей>
 gpg -a --export <тут пабкей> | sudo apt-key add -
 apt-get install php-fpm
+```
+
+Необходимо дать права Nginx'y, иначе велика вероятность, что получите ошибку:
+```
+nano /etc/php/7.0/fpm/pool.d/www.conf
+```
+Приводим следующие переменные к такому же виду (имя юзера nginx можно подсмотреть в ```/etc/nginx/nginx.conf```):
+```
+listen.owner = nginx
+listen.group = nginx
+listen.mode = 0666
 ```
 
 ## MySQL 5.7
