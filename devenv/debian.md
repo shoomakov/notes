@@ -86,6 +86,16 @@ listen.group = nginx
 listen.mode = 0666
 ```
 
+Мастхэв модули:
+```
+apt-get install php-mysql php-curl php7.0-mbstring
+```
+
+Перезагрузка php-fpm:
+```
+systemctl restart php7.0-fpm
+```
+
 ## MySQL 5.7
 
 Качаем deb-пакет отсюда https://dev.mysql.com/downloads/file/?id=468400
