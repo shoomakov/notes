@@ -1,18 +1,18 @@
-## Sudo
+## Musthave
 ```
-apt-get install sudo
-```
-
-## Node.js
-
-
-```
-curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
-sudo apt-get install -y nodejs
-sudo apt-get install -y build-essential
+apt-get install sudo curl git
 ```
 
-link: https://nodejs.org/en/download/package-manager/
+## ZSH
+```
+sudo apt-get install zsh
+sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+nano ~/.zshrc
+```
+Меняем строчку:
+```
+ZSH_THEME="bira"
+```
 
 
 ## Nginx
@@ -50,14 +50,6 @@ systemctl restart nginx
 apt-get remove nginx nginx-common
 ```
 
-
-## Forever
-
-
-```
-npm install forever -g
-```
-
 ## Бэкап конфигов
 
 
@@ -90,16 +82,22 @@ listen.owner = nginx
 listen.group = nginx
 listen.mode = 0666
 ```
+Тут вставляем имя пользователя, от имени которого деплоится проект:
+```
+user = shoomakov
+group = shoomakov
+```
 
 Мастхэв модули:
 ```
-apt-get install php-mysql php-curl php7.0-mbstring
+apt-get install php-mysql php-curl php7.0-mbstring php-cli php-xml
 ```
 
 Перезагрузка php-fpm:
 ```
 systemctl restart php7.0-fpm
 ```
+
 
 ## MySQL 5.7
 
@@ -116,4 +114,30 @@ apt-get install mysql-server
 ```
 mysql_upgrade -u root -p
 service mysql restart
+```
+
+## Composer
+Ключ тут: https://composer.github.io/pubkeys.html
+```
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+```
+
+## Node.js
+
+
+```
+curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+sudo apt-get install -y nodejs
+sudo apt-get install -y build-essential
+```
+
+link: https://nodejs.org/en/download/package-manager/
+
+
+## Forever
+
+```
+npm install forever -g
 ```
