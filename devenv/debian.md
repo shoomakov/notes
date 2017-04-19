@@ -1,3 +1,8 @@
+## Sudo
+```
+apt-get install sudo
+```
+
 ## Node.js
 
 
