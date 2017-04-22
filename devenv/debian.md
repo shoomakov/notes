@@ -97,7 +97,15 @@ apt-get install php-mysql php-curl php7.0-mbstring php-cli php-xml
 ```
 systemctl restart php7.0-fpm
 ```
+## php5.6-fpm
+**для некоторых древних проектов нужно и такое**
 
+```
+sudo LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
+sudo apt-get update
+sudo apt-get install php5.6-fpm
+sudo apt-get install php5.6-mysql
+```
 
 ## MySQL 5.7
 
